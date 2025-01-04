@@ -1,6 +1,6 @@
 # Basic Three.js VR Scene
 
-A modern WebXR-enabled virtual reality scene built with Three.js, featuring interactive controllers and object manipulation.
+A simple static WebXR-enabled virtual reality scene built with Three.js, featuring interactive controllers and object manipulation. The entire project runs directly in the browser with no build steps required.
 
 <img src="assets/scene.png" alt="Screenshot of the scene">
 
@@ -28,7 +28,6 @@ A modern WebXR-enabled virtual reality scene built with Three.js, featuring inte
     - [4. Controllers and "Grab" Interactions](#4-controllers-and-grab-interactions)
     - [5. Raycast with the Left Controller](#5-raycast-with-the-left-controller)
   - [Development](#development)
-  - [Contributing](#contributing)
   - [Resources](#resources)
   - [Additional Documentation](#additional-documentation)
   - [License](#license)
@@ -59,7 +58,6 @@ This repository provides a basic [Three.js](https://threejs.org/) setup for **We
 ## Prerequisites
 
 - A WebXR-compatible browser
-- For development: Node.js and npm
 - For VR testing:
   - A compatible VR headset, or
   - [WebXR Emulator Extension](https://github.com/MozillaReality/WebXR-emulator-extension) for desktop testing
@@ -83,19 +81,13 @@ cd basic-threejs-vr-scene
 
 ### Running the Project
 
-1. Start a local server (e.g., using `http-server`):
-
-```bash
-npx http-server
-```
-
-2. Open in your browser:
+1. Open in your browser:
 
    - For desktop: Use Chrome with WebXR flags enabled
    - For Android: Use Chrome
    - For iOS: Use WebXR Viewer app
 
-3. Click "Enter VR" or "Enter AR" to start the experience
+2. Click "Enter VR" or "Enter AR" to start the experience
 
 ## Documentation
 
@@ -250,15 +242,6 @@ For development, we recommend:
 3. Testing across different devices and browsers
 4. Using the provided debugging tools
 
-## Contributing
-
-We welcome contributions! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
 For more details, see our [Contributing Guidelines](CONTRIBUTING.md).
 
 ## Resources
@@ -269,14 +252,15 @@ For more details, see our [Contributing Guidelines](CONTRIBUTING.md).
 - [WebXR Viewer for iOS](https://apps.apple.com/us/app/webxr-viewer/id1295998056)
 
 ## Additional Documentation
+
 The project draws on the following **WebXR** documentation:
+
 - **WebXR Emulator Extension** (to emulate VR/AR devices on a desktop):  
   [MozillaReality/WebXR-emulator-extension](https://github.com/MozillaReality/WebXR-emulator-extension)
 - **iOS App for WebXR** (to run VR/AR experiences on Apple devices):  
   [WebXR Viewer on AppStore](https://apps.apple.com/us/app/webxr-viewer/id1295998056)
 
 For a detailed explanation of the starter scene, VR/AR setup, environment textures, and controller events, you can refer to the documentation text provided in this repo (or the excerpt in the project's docs folder).
-
 
 ## License
 
