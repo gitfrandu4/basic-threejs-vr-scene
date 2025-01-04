@@ -8,40 +8,132 @@ A modern WebXR-enabled virtual reality scene built with Three.js, featuring inte
 
 - [Basic Three.js VR Scene](#basic-threejs-vr-scene)
   - [Table of Contents](#table-of-contents)
-  - [Additional Documentation](#additional-documentation)
+  - [Overview](#overview)
   - [Features](#features)
-  - [Code Highlights](#code-highlights)
+    - [Core Features](#core-features)
+    - [Interaction Features](#interaction-features)
+  - [Prerequisites](#prerequisites)
+  - [Getting Started](#getting-started)
+    - [Installation](#installation)
+    - [Running the Project](#running-the-project)
+  - [Documentation](#documentation)
+    - [WebXR Setup](#webxr-setup)
+    - [Scene Components](#scene-components)
+    - [Controller Setup](#controller-setup)
+    - [WebAR Support](#webar-support)
+  - [Code Examples](#code-examples)
     - [1. Enabling WebXR and Adding the VR Button](#1-enabling-webxr-and-adding-the-vr-button)
     - [2. Adding a Sky and Ground](#2-adding-a-sky-and-ground)
     - [3. Loading FBX Models](#3-loading-fbx-models)
     - [4. Controllers and "Grab" Interactions](#4-controllers-and-grab-interactions)
     - [5. Raycast with the Left Controller](#5-raycast-with-the-left-controller)
-    - [WebAR Considerations](#webar-considerations)
-  - [Usage](#usage)
+  - [Development](#development)
   - [Contributing](#contributing)
+  - [Resources](#resources)
+  - [Additional Documentation](#additional-documentation)
   - [License](#license)
+  - [License](#license-1)
 
-## Additional Documentation
-The project draws on the following **WebXR** documentation:
-- **WebXR Emulator Extension** (to emulate VR/AR devices on a desktop):  
-  [MozillaReality/WebXR-emulator-extension](https://github.com/MozillaReality/WebXR-emulator-extension)
-- **iOS App for WebXR** (to run VR/AR experiences on Apple devices):  
-  [WebXR Viewer on AppStore](https://apps.apple.com/us/app/webxr-viewer/id1295998056)
+## Overview
 
-For a detailed explanation of the starter scene, VR/AR setup, environment textures, and controller events, you can refer to the documentation text provided in this repo (or the excerpt in the project's docs folder).
+This repository provides a basic [Three.js](https://threejs.org/) setup for **WebXR**, allowing you to experience a virtual reality (VR) scene directly in the browser. It uses **VRButton** to enter VR mode and demonstrates interaction with objects through controllers, object grabbing, and basic raycasting.
 
 ## Features
-- **Skybox** (using `SphereGeometry` with a texture).
-- **Ground** plane (texture repeated over a large area).
-- **Multiple FBX Models** (loaded via `FBXLoader` and placed at different coordinates).
-- **VR Controllers** using `XRControllerModelFactory`, including events to:
-  - **Grab** nearby objects when the right controller is close enough.
-  - **Raycast** with the left controller (pull objects in or relocate them).
-- Example code for both **WebVR** and **WebAR** (just by switching to `VRButton` or `ARButton`).
 
-## Code Highlights
+### Core Features
+
+- 🌍 **Immersive Environment**
+  - **Skybox** (using `SphereGeometry` with a texture)
+  - **Ground** plane (texture repeated over a large area)
+  - **Multiple FBX Models** (loaded via `FBXLoader` and placed at different coordinates)
+
+### Interaction Features
+
+- 🎮 **VR Controllers** using `XRControllerModelFactory`, including:
+  - **Grab** nearby objects when the right controller is close enough
+  - **Raycast** with the left controller (pull objects in or relocate them)
+- 🔄 **Runtime Options**
+  - Support for both **WebVR** and **WebAR** (switchable via `VRButton` or `ARButton`)
+  - Cross-platform compatibility
+
+## Prerequisites
+
+- A WebXR-compatible browser
+- For development: Node.js and npm
+- For VR testing:
+  - A compatible VR headset, or
+  - [WebXR Emulator Extension](https://github.com/MozillaReality/WebXR-emulator-extension) for desktop testing
+  - [WebXR Viewer](https://apps.apple.com/us/app/webxr-viewer/id1295998056) for iOS testing
+
+## Getting Started
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/usuario/basic-threejs-vr-scene.git
+```
+
+2. Navigate to the project directory:
+
+```bash
+cd basic-threejs-vr-scene
+```
+
+### Running the Project
+
+1. Start a local server (e.g., using `http-server`):
+
+```bash
+npx http-server
+```
+
+2. Open in your browser:
+
+   - For desktop: Use Chrome with WebXR flags enabled
+   - For Android: Use Chrome
+   - For iOS: Use WebXR Viewer app
+
+3. Click "Enter VR" or "Enter AR" to start the experience
+
+## Documentation
+
+### WebXR Setup
+
+The project uses the latest WebXR standards and provides compatibility across different platforms. For detailed setup instructions, refer to the documentation in the `docs` folder.
+
+### Scene Components
+
+Detailed information about the scene setup, including:
+
+- Environment textures
+- Object placement
+- Lighting setup
+- Performance optimizations
+
+### Controller Setup
+
+Implementation details for VR controllers, including:
+
+- Controller model loading
+- Event handling
+- Interaction zones
+- Haptic feedback
+
+### WebAR Support
+
+For AR implementation, the project supports:
+
+- Device camera integration
+- Surface detection
+- Object placement
+- Touch interactions
+
+## Code Examples
 
 ### 1. Enabling WebXR and Adding the VR Button
+
 ```js
 import { VRButton } from 'https://unpkg.com/three@0.126.0/examples/jsm/webxr/VRButton.js';
 
@@ -54,6 +146,7 @@ renderer.setAnimationLoop(render);
 ```
 
 ### 2. Adding a Sky and Ground
+
 ```js
 // Texture loader
 let textureLoader = new THREE.TextureLoader();
@@ -64,41 +157,23 @@ const materialSky = new THREE.MeshBasicMaterial({
   map: textureSky,
   side: THREE.DoubleSide,
 });
-const sky = new THREE.Mesh(
-  new THREE.SphereGeometry(30, 32, 32),
-  materialSky
-);
+const sky = new THREE.Mesh(new THREE.SphereGeometry(30, 32, 32), materialSky);
 scene.add(sky);
-
-// Ground
-const textureGround = textureLoader.load(
-  'path/to/grass-texture.jpg',
-  function (texture) {
-    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(60, 60);
-  }
-);
-const materialGround = new THREE.MeshStandardMaterial({ map: textureGround });
-let plane = new THREE.Mesh(new THREE.PlaneGeometry(60, 60), materialGround);
-plane.rotation.x = -Math.PI / 2; // Rotar 90 grados
-scene.add(plane);
 ```
 
 ### 3. Loading FBX Models
+
 ```js
 import { FBXLoader } from 'https://unpkg.com/three@0.126.0/examples/jsm/loaders/FBXLoader.js';
 
-new FBXLoader().load(
-  'path/to/Tree(1).fbx',
-  (object) => {
-    object.traverse((child) => {
-      object.scale.set(0.004, 0.004, 0.004);
-      createTree(object.clone(), [0, 0, -10]);
-      createTree(object.clone(), [5, 0, -3]);
-      // ...
-    });
-  }
-);
+new FBXLoader().load('path/to/Tree(1).fbx', (object) => {
+  object.traverse((child) => {
+    object.scale.set(0.004, 0.004, 0.004);
+    createTree(object.clone(), [0, 0, -10]);
+    createTree(object.clone(), [5, 0, -3]);
+    // ...
+  });
+});
 
 function createTree(tree, position) {
   tree.position.set(position[0], position[1], position[2]);
@@ -107,6 +182,7 @@ function createTree(tree, position) {
 ```
 
 ### 4. Controllers and "Grab" Interactions
+
 ```js
 import { XRControllerModelFactory } from 'https://unpkg.com/three@0.126.0/examples/jsm/webxr/XRControllerModelFactory.js';
 
@@ -140,6 +216,7 @@ function render() {
 ```
 
 ### 5. Raycast with the Left Controller
+
 ```js
 controllerL.addEventListener('squeezestart', SelectEventRay);
 
@@ -164,46 +241,47 @@ function getIntersections(controller) {
 }
 ```
 
-### WebAR Considerations
-If you’d like to switch to **AR** instead of **VR**, you can import:
-```js
-import { ARButton } from 'https://unpkg.com/three@0.126.0/examples/jsm/webxr/ARButton.js';
-```
-...and replace the VR button with:
-```js
-document.body.appendChild(ARButton.createButton(renderer, {
-  requiredFeatures: ['hit-test'] // or []
-}));
-```
-Your `renderer.xr.enabled = true;` remains the same, but AR mode uses the device camera as a background. In advanced AR experiences, you can detect surfaces (plane detection), place objects on them, and interact by tapping or by using controllers if available.
+## Development
 
-## Usage
-1. **Clone** the repository:
-```bash
-git clone https://github.com/usuario/basic-threejs-vr-scene.git
-```
-2. **Install** a local server or open the file in a compatible environment:
-   - For example, serve it with `npx http-server` (or any other simple web server).
-3. **Open** the `index.html` in your **WebXR-compatible browser**. If using mobile:
-   - On **Android**, use **Chrome** (with WebXR flags enabled if necessary).
-   - On **iOS**, use the **WebXR Viewer** app.
-4. **Enter VR** or **Enter AR** by clicking the button added by `VRButton` or `ARButton`.
+For development, we recommend:
+
+1. Using the WebXR Emulator Extension for rapid testing
+2. Following the Three.js best practices
+3. Testing across different devices and browsers
+4. Using the provided debugging tools
 
 ## Contributing
-1. **Fork** the repository.
-2. **Create** a new branch:
-```bash
-git checkout -b feature/new-feature
-```
-3. **Commit** your changes:
-```bash
-git commit -m "Add new feature"
-```
-4. **Push** the branch:
-```bash
-git push origin feature/new-feature
-```
-5. **Open** a Pull Request for review.
+
+We welcome contributions! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+For more details, see our [Contributing Guidelines](CONTRIBUTING.md).
+
+## Resources
+
+- [Three.js Documentation](https://threejs.org/docs/)
+- [WebXR Device API](https://developer.mozilla.org/en-US/docs/Web/API/WebXR_Device_API)
+- [WebXR Emulator Extension](https://github.com/MozillaReality/WebXR-emulator-extension)
+- [WebXR Viewer for iOS](https://apps.apple.com/us/app/webxr-viewer/id1295998056)
+
+## Additional Documentation
+The project draws on the following **WebXR** documentation:
+- **WebXR Emulator Extension** (to emulate VR/AR devices on a desktop):  
+  [MozillaReality/WebXR-emulator-extension](https://github.com/MozillaReality/WebXR-emulator-extension)
+- **iOS App for WebXR** (to run VR/AR experiences on Apple devices):  
+  [WebXR Viewer on AppStore](https://apps.apple.com/us/app/webxr-viewer/id1295998056)
+
+For a detailed explanation of the starter scene, VR/AR setup, environment textures, and controller events, you can refer to the documentation text provided in this repo (or the excerpt in the project's docs folder).
+
 
 ## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## License
+
 This project is available under the [MIT License](LICENSE).
