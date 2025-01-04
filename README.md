@@ -265,7 +265,3 @@ For a detailed explanation of the starter scene, VR/AR setup, environment textur
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
-## License
-
-This project is available under the [MIT License](LICENSE).
